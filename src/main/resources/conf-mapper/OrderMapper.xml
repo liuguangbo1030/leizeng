@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.udp.nb.mapper.OrderMapper">
+
+    <sql id="columns">
+        id AS id,
+        create_time AS createTime,
+        comid AS comid,
+        uin AS uin,
+        total AS total,
+        state AS state,
+        end_time AS endTime,
+        auto_pay AS autoPay,
+        pay_type AS payType,
+        uid AS uid,
+        car_number AS carNumber
+    </sql>
+
+    <insert id="addOrder" parameterType="com.udp.nb.entity.Order"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_tb
+        (
+            comid,
+            <if test="uin !=null">
+                uin,
+            </if>
+            <if test="uid !=null">
+                uid,
+            </if>
+            car_number,
+            create_time
+        )
+        VALUES
+        (
+            #{comid},
+            <if test="uin != null">
+                #{uin},
+            </if>
+            <if test="uid !=null">
+                #{uid},
+            </if>
+            #{carNumber},
+            #{createTime}
+        )
+    </insert>
+
+    <update id="updateOrderEndTime" parameterType="com.udp.nb.entity.Order">
+        UPDATE
+            order_tb
+        SET
+        end_time = #{endTime}
+        <if test="uid != null">
+            ,uid = #{uid}
+        </if>
+        <where>
+            <if test="comid != null">
+                AND comid = #{comid}
+            </if>
+            <if test="carNumber != null">
+                AND carNumber = #{carNumber}
+            </if>
+        </where>
+    </update>
+
+    <select id="findOrder" parameterType="java.util.Map" resultType="com.udp.nb.entity.Order">
+        SELECT
+            <include refid="columns"/>
+        FROM
+            order_tb
+        <where>
+            <if test="comid != null">
+                AND comid = #{comid}
+            </if>
+            <if test="carNumber != null">
+                AND car_number = #{carNumber}
+            </if>
+            <if test="state != null">
+                <if test="state == 0">
+                    AND state = #{state} AND end_time IS NULL
+                </if>
+                <if test="state > 0">
+                    AND state = #{state}
+                </if>
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+</mapper>

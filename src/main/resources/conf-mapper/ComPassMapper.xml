@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.udp.nb.mapper.ComPassMapper">
+
+    <sql id="columns">
+        id AS id,
+        worksite_id AS worksiteId,
+        passname AS passname,
+        passtype AS passtype,
+        description AS description,
+        comid AS comid,
+        state AS state,
+        month_set AS monthSet,
+        month2_set AS month2Set,
+        channel_id AS channelId
+    </sql>
+
+    <select id="findComPass" parameterType="int" resultType="com.udp.nb.entity.ComPass">
+        SELECT
+            <include refid="columns"/>
+        FROM
+            com_pass_tb
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+</mapper>

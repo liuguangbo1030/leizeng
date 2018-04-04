@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.udp.nb.mapper.CarInfoMapper">
+
+    <sql id="columns">
+        id AS id,
+        uin AS uin,
+        car_number AS carNumber,
+        state AS state,
+        create_time AS createTime,
+        is_auth AS isAuth,
+        is_comuse AS isComuse,
+        pic_url1 AS picUrl1,
+        pic_url2 AS picUrl2,
+        remark AS remark
+    </sql>
+
+    <select id="findCarInfo" parameterType="java.util.Map" resultType="com.udp.nb.entity.CarInfo">
+        SELECT
+            <include refid="columns"/>
+        FROM
+            car_info_tb
+        <where>
+            <if test="carNumber != null">
+                AND car_number = #{carNumber}
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+</mapper>

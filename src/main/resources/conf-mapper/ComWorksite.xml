@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.udp.nb.mapper.ComWorksiteMapper">
+
+    <sql id="columns">
+        id AS id,
+        comid AS comid,
+        worksite_name AS worksiteName,
+        description AS description,
+        net_type AS netType,
+        host_name AS hostName,
+        host_memory AS hostMemory,
+        host_internal AS hostInternal,
+        upload_time AS uploadTime,
+        state AS state
+    </sql>
+
+    <select id="findComWorksite" parameterType="int" resultType="com.udp.nb.entity.ComWorksite">
+        SELECT
+            <include refid="columns"/>
+        FROM
+            com_worksite_tb
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+</mapper>

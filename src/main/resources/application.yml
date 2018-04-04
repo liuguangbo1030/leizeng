@@ -1,0 +1,30 @@
+#数据库配置信息
+spring:
+    datasource:
+        name: qbzzSource
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:postgresql://127.0.0.1:5433/zldetc
+        username: postgres
+        password: 123456
+        driver-class-name: org.postgresql.Driver
+        minIdle: 1
+        maxActive: 2
+        initialSize: 1
+        timeBetweenEvictionRunsMillis: 3000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+
+#服务器配置信息
+server:
+    port: 9091
+    udpport: 9090
+#日志文件配置信息
+logging:
+    config: classpath:logback.xml
+    level: debug
+#设备信息
+ght:
+    deviceidurl: http://cloud.xxx.com/ght-demo/background/member/device/checkIsFree.html
